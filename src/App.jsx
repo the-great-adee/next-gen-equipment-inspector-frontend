@@ -7,20 +7,22 @@ import Records from './pages/Records';
 import Home from './pages/Home';
 import Footer from './components/Footer';
 import Login from './pages/Login';
+import Registration from './pages/Registration';
 
 
 
 const App = () => {
   return (
-    <div className=''>
+    <div>
       <HeadNavBar/>
-      <div className="min-h-full relative h-fit overflow-y-scroll pt-20 overflow-hidden">
+      <div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/records" element={<Records />} />
           <Route path="/new" element={<New />} />
           <Route path="/contact" element={<Contact/>} />
           <Route path="/login" element={<Login/>} />
+          <Route path="/registration" element={<Registration/>} />
         </Routes>
         <Footer/>
       </div>
