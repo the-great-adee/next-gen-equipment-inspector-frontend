@@ -1,4 +1,3 @@
-
 import { Routes, Route } from 'react-router-dom';
 import HeadNavBar from './components/HeadNavBar';
 import Contact from './pages/Contact';
@@ -12,18 +11,19 @@ import Login from './pages/Login';
 
 const App = () => {
   return (
-    <div className=''>
-      <HeadNavBar/>
-      <div className="min-h-full relative h-fit overflow-y-scroll pt-20 overflow-hidden">
+    <div className='h-screen bg-white top-0 bottom-0 overflow-y-scroll pt-20 overflow-hidden'>
+      <HeadNavBar />
+      <div className="min-h-full relative h-fit">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/records" element={<Records />} />
           <Route path="/new" element={<New />} />
-          <Route path="/contact" element={<Contact/>} />
-          <Route path="/login" element={<Login/>} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </div>
+
     </div>
   );
 };

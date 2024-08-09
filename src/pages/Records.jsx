@@ -2,7 +2,7 @@
 
 const Records = () => {
   return (
-    <div>Records</div>
+    <div className="h-full">Records</div>
   )
 }
 
