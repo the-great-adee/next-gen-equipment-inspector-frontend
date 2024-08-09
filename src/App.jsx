@@ -1,24 +1,28 @@
 
-//import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import HeadNavBar from './components/HeadNavBar';
+import Contact from './pages/Contact';
+import New from './pages/New';
+import Records from './pages/Records';
+import Home from './pages/Home';
+import Footer from './components/Footer';
 
 
-// const Home = () => <h2>Home Page</h2>;
-// const About = () => <h2>About Page</h2>;
-// const Services = () => <h2>Services Page</h2>;
-// const Contact = () => <h2>Contact Page</h2>;
 
 const App = () => {
   return (
-    <>
-      <div className="container mx-auto p-4">
-        {/* <Routes>
+    <div className='min-h-full h-fit overflow-y-scroll pt-20 overflow-hidden'>
+      <HeadNavBar/>
+      <div className="">
+        <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes> */}
+          <Route path="/records" element={<Records />} />
+          <Route path="/new" element={<New />} />
+          <Route path="/contact" element={<Contact/>} />
+        </Routes>
+        <Footer/>
       </div>
-    </>
+    </div>
   );
 };
 
