@@ -337,12 +337,21 @@ const New = () => {
     "set truck number": "truckSerialNumber",
     "set track number": "truckSerialNumber",
     "set truck model": "truckModel",
-    "set inspection id": "inspectionID",
-    "set infection id": "inspectionID",
+    "set track model": "truckModel",
+    // "set inspection id": "inspectionID",
+    // "set infection id": "inspectionID",
     "set inspector name": "inspectorName",
     "set infection name": "inspectorName",
     "set inspection name": "inspectorName",
-    // Add other mappings as needed
+    "set inspection location": "locationOfInspection",
+    "set inspection coords": "geoCoordinates",
+    "set meter hours": "serviceMeterHours",
+    "set minute hours": "serviceMeterHours",
+    "set Odometer reading": "serviceMeterHours",
+    "set customer signature": "inspectorSignature",
+    "set company name": "customerName",
+    "set customer name": "customerName",
+    "set customer id": "catCustomerID",
   };
 
   useEffect(() => {
@@ -390,7 +399,7 @@ const New = () => {
             {isRecording ? (
               <div className="relative flex items-center flex-col justify-center space-y-4">
                 <img
-                  className="size-32 left-1/2 transform -translate-x-1/2 top-1/2 z-10 -translate-y-1/2 absolute cursor-pointer"
+                  className="size-24 left-1/2 transform -translate-x-1/2 top-1/2 z-10 -translate-y-1/2 absolute cursor-pointer"
                   src={microphone}
                 />
                 <div className="animate-pulse relative bg-red-100 w-48 aspect-square px-8 mx-auto rounded-full flex justify-center items-center my-auto"></div>
@@ -401,10 +410,10 @@ const New = () => {
             ) : (
               <div className="relative flex items-center flex-col justify-center space-y-4">
                 <img
-                  className="size-32 left-1/2 transform -translate-x-1/2 top-1/2 z-10 -translate-y-1/2 absolute cursor-pointer"
+                  className="size-24 left-1/2 transform -translate-x-1/2 top-1/2 z-10 -translate-y-1/2 absolute cursor-pointer"
                   src={microphone}
                 />
-                <div className="animate-pulse relative bg-red-100 w-48 aspect-square px-8 mx-auto rounded-full flex justify-center items-center my-auto"></div>
+                <div className="animate-pulse relative w-48 aspect-square px-8 mx-auto rounded-full flex justify-center items-center my-auto"></div>
                 <div className="text-4xl opacity-0">
                   <ThreeDotLoader />
                 </div>
@@ -422,7 +431,10 @@ const New = () => {
                     ? "text-green-500"
                     : "text-red-500";
                   return (
-                    <li key={lastResult.timestamp} className={className}>
+                    <li
+                      key={lastResult.timestamp}
+                      className={className + "font-bold text-xl text-gray-300"}
+                    >
                       {lastResult.transcript}
                     </li>
                   );
@@ -470,7 +482,7 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
         </div>
 
         {/* Inspection ID */}
-        {/* <div className="mb-4">
+        <div className="mb-4">
           <label className="block text-gray-700">Inspection ID</label>
           <input
             className="w-full p-2 border border-gray-300 rounded"
@@ -481,7 +493,7 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
           {errors.inspectionID && (
             <span className="text-red-500">This field is required</span>
           )}
-        </div> */}
+        </div>
 
         {/* Inspector Name */}
         <div className="mb-4">
@@ -495,8 +507,107 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
           )}
         </div>
 
-        {/* Other Fields */}
-        {/* ... continue with other fields as you have them ... */}
+        {/* Inspection Employee ID */}
+        {/* <div className="mb-4">
+          <label className="block text-gray-700">Inspection Employee ID</label>
+          <input
+            className="w-full p-2 border border-gray-300 rounded"
+            {...register("inspectionEmployeeID", { required: true })}
+          />
+          {errors.inspectionEmployeeID && (
+            <span className="text-red-500">This field is required</span>
+          )}
+        </div> */}
+
+        {/* Date & Time of Inspection */}
+        {/* <div className="mb-4">
+          <label className="block text-gray-700">
+            Date & Time of Inspection
+          </label>
+          <input
+            className="w-full p-2 border border-gray-300 rounded"
+            {...register("inspectionDateTime", { required: true })}
+            type="datetime-local"
+          />
+          {errors.inspectionDateTime && (
+            <span className="text-red-500">This field is required</span>
+          )}
+        </div> */}
+
+        {/* Location of Inspection */}
+        <div className="mb-4">
+          <label className="block text-gray-700">Location of Inspection</label>
+          <input
+            className="w-full p-2 border border-gray-300 rounded"
+            {...register("locationOfInspection", { required: true })}
+          />
+          {errors.locationOfInspection && (
+            <span className="text-red-500">This field is required</span>
+          )}
+        </div>
+
+        {/* Geo Coordinates of Inspection */}
+        {/* <div className="mb-4">
+          <label className="block text-gray-700">
+            Geo Coordinates of Inspection (optional)
+          </label>
+          <input
+            className="w-full p-2 border border-gray-300 rounded"
+            {...register("geoCoordinates")}
+            placeholder="Latitude, Longitude"
+          />
+        </div> */}
+
+        {/* Service Meter Hours */}
+        <div className="mb-4">
+          <label className="block text-gray-700">Service Meter Hours</label>
+          <input
+            className="w-full p-2 border border-gray-300 rounded"
+            {...register("serviceMeterHours", { required: true })}
+            type="number"
+          />
+          {errors.serviceMeterHours && (
+            <span className="text-red-500">This field is required</span>
+          )}
+        </div>
+
+        {/* Inspector Signature */}
+        {/* <div className="mb-4">
+          <label className="block text-gray-700">Inspector Signature</label>
+          <input
+            className="w-full p-2 border border-gray-300 rounded"
+            {...register("inspectorSignature", { required: true })}
+          />
+          {errors.inspectorSignature && (
+            <span className="text-red-500">This field is required</span>
+          )}
+        </div> */}
+
+        {/* Customer Name / Company Name */}
+        <div className="mb-4">
+          <label className="block text-gray-700">
+            Customer Name / Company Name
+          </label>
+          <input
+            className="w-full p-2 border border-gray-300 rounded"
+            {...register("customerName", { required: true })}
+          />
+          {errors.customerName && (
+            <span className="text-red-500">This field is required</span>
+          )}
+        </div>
+
+        {/* CAT Customer ID */}
+        <div className="mb-4">
+          <label className="block text-gray-700">CAT Customer ID</label>
+          <input
+            className="w-full p-2 border border-gray-300 rounded"
+            {...register("catCustomerID", { required: true })}
+          />
+          {errors.catCustomerID && (
+            <span className="text-red-500">This field is required</span>
+          )}
+        </div>
 
         <button
           type="submit"
