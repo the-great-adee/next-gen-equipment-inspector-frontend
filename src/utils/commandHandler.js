@@ -32,6 +32,7 @@ export let vehicleConfig = {
 export let legalCommands = [
     "set",
     "unset",
+    "remove",
     "vehicle",
     "engine",
     "fuel",
