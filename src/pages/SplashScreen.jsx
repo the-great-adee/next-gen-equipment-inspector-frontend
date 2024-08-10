@@ -19,7 +19,7 @@ const SplashScreen = () => {
       </h1>
 
       <p className="text-2xl font-semibold text-gray-600">
-        Made with &lt;3 by Caterpillar for Caterpillar
+        Made with ❤️ by Caterpillar for Caterpillar
       </p>
     </div>
   )
