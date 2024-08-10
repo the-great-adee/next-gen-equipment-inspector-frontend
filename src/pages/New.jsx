@@ -316,8 +316,8 @@ const New = () => {
   } = useSpeechToText({
     continuous: true,
     useLegacyResults: false,
-  });
-  const speak = useTextToSpeech();
+  })
+  const speak = useTextToSpeech()
 
   const {
     register,
@@ -394,8 +394,7 @@ const New = () => {
         <div className="flex justify-center flex-col rounded-lg items-center w-full py-3 pt-5 px-2">
           <div
             className="w-fit z-20 cursor-pointer hover:scale-[97%] active:scale-95 transition-all duration-300"
-            onClick={isRecording ? stopSpeechToText : startSpeechToText}
-          >
+            onClick={isRecording ? stopSpeechToText : startSpeechToText}>
             {isRecording ? (
               <div className="relative flex items-center flex-col justify-center space-y-4">
                 <img
@@ -437,7 +436,7 @@ const New = () => {
                     >
                       {lastResult.transcript}
                     </li>
-                  );
+                  )
                 })()}
               {interimResult && <li>{interimResult}</li>}
             </ul>
@@ -445,10 +444,10 @@ const New = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default New;
+export default New
 
 const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
   return (
@@ -609,13 +608,10 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
           )}
         </div>
 
-        <button
-          type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded"
-        >
+        <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">
           Submit
         </button>
       </form>
     </div>
-  );
-};
+  )
+}
