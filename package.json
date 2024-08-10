@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
+    "next-gen-equipment-inspector": "file:",
     "pocketbase": "^0.21.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.52.2",
     "react-hook-speech-to-text": "^0.8.0",
     "react-router-dom": "^6.26.0"
   },
