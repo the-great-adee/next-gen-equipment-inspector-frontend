@@ -1,11 +1,12 @@
-import useSpeechToText from "react-hook-speech-to-text";
-import { OutlinedButton } from "../components/Button";
+import useSpeechToText from "react-hook-speech-to-text"
+import { OutlinedButton } from "../components/Button"
 
-import { vehicleConfig, legalCommands } from "../utils/commandHandler";
-import ThreeDotLoader, { RedDot } from "../components/threeDotLoader";
-import useTextToSpeech from "../hooks/useTextToSpeech";
-import { useForm } from "react-hook-form";
-import microphone from "../assets/microphone.png";
+import { vehicleConfig, legalCommands } from "../utils/commandHandler"
+import ThreeDotLoader, { RedDot } from "../components/threeDotLoader"
+import useTextToSpeech from "../hooks/useTextToSpeech"
+import { useForm } from "react-hook-form"
+import microphone from "../assets/microphone.png"
+import usePrintToPDF from "./usePrintToPDF"
 
 const New = () => {
   const {
@@ -18,10 +19,10 @@ const New = () => {
   } = useSpeechToText({
     continuous: true,
     useLegacyResults: false,
-  });
-  const speak = useTextToSpeech();
+  })
+  const speak = useTextToSpeech()
 
-  if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;
+  if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>
 
   return (
     <div className="min-h-96 grid grid-cols-2 gap-2 px-4 py-4">
@@ -36,8 +37,7 @@ const New = () => {
         <div className="flex justify-center flex-col rounded-lg items-center w-full py-3 pt-5 px-2">
           <div
             className="w-fit z-20 cursor-pointer hover:scale-[97%] active:scale-95 transition-all duration-300"
-            onClick={isRecording ? stopSpeechToText : startSpeechToText}
-          >
+            onClick={isRecording ? stopSpeechToText : startSpeechToText}>
             {isRecording ? (
               <div className="relative flex items-center flex-col justify-center space-y-4">
                 <img
@@ -69,19 +69,19 @@ const New = () => {
               {results.length > 0 &&
                 // Get the most recent result
                 (() => {
-                  const lastResult = results[results.length - 1];
+                  const lastResult = results[results.length - 1]
                   const commands = lastResult.transcript
                     .split(" ")
-                    .filter((word) => word !== "");
+                    .filter((word) => word !== "")
                   const className = legalCommands.includes(commands[0])
                     ? "text-green-500"
-                    : "text-red-500";
+                    : "text-red-500"
 
                   return (
                     <li key={lastResult.timestamp} className={className}>
                       {lastResult.transcript}
                     </li>
-                  );
+                  )
                 })()}
               {interimResult && <li>{interimResult}</li>}
             </ul>
@@ -109,10 +109,10 @@ const New = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default New;
+export default New
 
 const InspectionForm = () => {
   const {
@@ -120,12 +120,12 @@ const InspectionForm = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm()
 
   const onSubmit = (data) => {
-    console.log(data);
-    reset();
-  };
+    console.log(data)
+    reset()
+  }
 
   return (
     <div className="w-full mx-auto p-4 bg-gray-100 shadow-md rounded-md">
@@ -197,9 +197,7 @@ const InspectionForm = () => {
 
         {/* Date & Time of Inspection */}
         <div className="mb-4">
-          <label className="block text-gray-700">
-            Date & Time of Inspection
-          </label>
+          <label className="block text-gray-700">Date & Time of Inspection</label>
           <input
             className="w-full p-2 border border-gray-300 rounded"
             {...register("inspectionDateTime", { required: true })}
@@ -261,9 +259,7 @@ const InspectionForm = () => {
 
         {/* Customer Name / Company Name */}
         <div className="mb-4">
-          <label className="block text-gray-700">
-            Customer Name / Company Name
-          </label>
+          <label className="block text-gray-700">Customer Name / Company Name</label>
           <input
             className="w-full p-2 border border-gray-300 rounded"
             {...register("customerName", { required: true })}
@@ -285,13 +281,10 @@ const InspectionForm = () => {
           )}
         </div>
 
-        <button
-          type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded"
-        >
+        <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">
           Submit
         </button>
       </form>
     </div>
-  );
-};
+  )
+}

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
+    "html2pdf.js": "^0.10.2",
     "next-gen-equipment-inspector": "file:",
     "pocketbase": "^0.21.4",
     "react": "^18.3.1",
