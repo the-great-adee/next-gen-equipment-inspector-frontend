@@ -5,6 +5,7 @@ import { vehicleConfig, legalCommands } from "../utils/commandHandler";
 import ThreeDotLoader, { RedDot } from "../components/threeDotLoader";
 import useTextToSpeech from "../hooks/useTextToSpeech";
 import { useForm } from "react-hook-form";
+import microphone from "../assets/microphone.png";
 
 const New = () => {
   const {
@@ -23,7 +24,7 @@ const New = () => {
   if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;
 
   return (
-    <div className="min-h-96 grid grid-cols-2 px-4 py-4">
+    <div className="min-h-96 grid grid-cols-2 gap-2 px-4 py-4">
       <div className="p-1">
         {" "}
         <InspectionForm />
@@ -31,11 +32,6 @@ const New = () => {
 
       <div className="p-1">
         <h1>{isRecording ? <ThreeDotLoader /> : <RedDot />}</h1>
-        <OutlinedButton
-          clickHandler={isRecording ? stopSpeechToText : startSpeechToText}
-        >
-          {isRecording ? "Stop" : "Start"}
-        </OutlinedButton>
 
         <ul>
           {results.map((result) => {
@@ -56,10 +52,24 @@ const New = () => {
           })}
           {interimResult && <li>{interimResult}</li>}
         </ul>
-
-        <OutlinedButton clickHandler={() => speak("Hello, World!")}>
-          Speak
-        </OutlinedButton>
+        <div className="flex justify-between rounded-lg items-center py-3 pt-5 px-2">
+          <div
+            className="w-full z-20"
+            onClick={isRecording ? stopSpeechToText : startSpeechToText}
+          >
+            {isRecording ? (
+              "Stop"
+            ) : (
+              <div className="relative">
+                <img
+                  className="size-32 left-1/2 transform -translate-x-1/2 top-1/2 z-10 -translate-y-1/2 absolute cursor-pointer"
+                  src={microphone}
+                />
+                <div className="animate-pulse relative bg-red-100 w-48 aspect-square px-8 mx-auto rounded-full flex justify-center items-center  my-auto"></div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
