@@ -37,7 +37,7 @@ const HeadNavBar = () => {
   }, [sliderRef])
 
   return (
-    <nav className="bg-white/30 sticky top-0 backdrop-blur-lg text-black p-4 z-50">
+    <nav className="bg-white/30 sticky top-0 backdrop-blur-lg text-black p-3 z-50">
       <div className="mx-auto flex justify-between items-center">
         <div className="text-black font-bold text-3xl">
           <Link to={"/"}>
