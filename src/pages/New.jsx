@@ -399,21 +399,17 @@ const New = () => {
             onClick={isRecording ? stopSpeechToText : startSpeechToText}>
             {isRecording ? (
               <div className="relative flex items-center flex-col justify-center space-y-4">
-                <img
-                  className="size-24 left-1/2 transform -translate-x-1/2 top-1/2 z-10 -translate-y-1/2 absolute cursor-pointer"
-                  src={microphone}
-                />
-                <div className="animate-pulse relative bg-red-100 w-48 aspect-square px-8 mx-auto rounded-full flex justify-center items-center my-auto"></div>
+                <div className="animate-pulse relative bg-red-100 w-48 aspect-square px-8 mx-auto rounded-full flex justify-center items-center my-auto">
+                  <img className="size-24 z-50 cursor-pointer" src={microphone} />
+                </div>
                 <ThreeDotLoader />
               </div>
             ) : (
               <div className="relative flex items-center flex-col justify-center space-y-4">
-                <img
-                  className="size-24 left-1/2 transform -translate-x-1/2 top-1/2 z-10 -translate-y-1/2 absolute cursor-pointer"
-                  src={microphone}
-                />
-                <div className="animate-pulse relative w-48 aspect-square px-8 mx-auto rounded-full flex justify-center items-center my-auto"></div>
-                <div className="text-4xl opacity-0">
+                <div className=" w-48 aspect-square px-8 mx-auto rounded-full flex justify-center items-center my-auto">
+                  <img className="size-24 z-50 cursor-pointer" src={microphone} />
+                </div>
+                <div className="opacity-0">
                   <ThreeDotLoader />
                 </div>
               </div>
