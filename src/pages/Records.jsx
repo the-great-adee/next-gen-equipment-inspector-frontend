@@ -1,20 +1,64 @@
+import { useState, useEffect } from 'react';
+import PocketBase from 'pocketbase';
 import jsPDF from 'jspdf';
 
 const Records = () => {
-  const records = [
-    { id: '9238', vehicleId: '1111', vehicleName: 'Asphalt Pavers', date: '17-07-24' },
-    { id: '8364', vehicleId: '2222', vehicleName: 'Backhoe Loaders', date: '28-08-24' },
-    { id: '8763', vehicleId: '3333', vehicleName: 'Compactors', date: '05-06-24' },
-  ];
+  const [records, setRecords] = useState([]);
+
+  useEffect(() => {
+    const fetchRecords = async () => {
+      try {
+        const pb = new PocketBase('https://avalon.glitchctf.games');
+
+        
+        await pb.admins.authWithPassword('shakir@aliviation.me', 'caterpillar');
+
+        const resultList = await pb.collection('inspection').getList(1, 50, {
+          sort: '-created',
+        });
+
+        const formattedRecords = resultList.items.map(record => {
+          const date = new Date(record.time);
+
+          // Format date as DD-MM-YYYY
+          const formattedDate = date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          });
+
+          // Format time as HH:MM in 24-hour format
+          const formattedTime = date.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+          });
+
+          return {
+            id: record.InsID,
+            name: record.InsName,
+            time: `${formattedDate} - ${formattedTime}`,
+            location: record.location,
+          };
+        });
+
+        setRecords(formattedRecords);
+      } catch (error) {
+        console.error('Error fetching records:', error);
+      }
+    };
+
+    fetchRecords();
+  }, []);
 
   const handleDownload = (record) => {
     const doc = new jsPDF();
 
     doc.text('Inspection Record', 20, 20);
     doc.text(`Inspection ID: ${record.id}`, 20, 30);
-    doc.text(`Vehicle ID: ${record.vehicleId}`, 20, 40);
-    doc.text(`Vehicle Name: ${record.vehicleName}`, 20, 50);
-    doc.text(`Date: ${record.date}`, 20, 60);
+    doc.text(`Vehicle Name: ${record.name}`, 20, 40);
+    doc.text(`Time: ${record.time}`, 20, 50);
+    doc.text(`Location: ${record.location}`, 20, 60);
 
     doc.save(`Record_${record.id}.pdf`);
   };
@@ -29,16 +73,16 @@ const Records = () => {
                 Inspection ID
               </th>
               <th scope="col" className="px-6 py-3">
-                Vehicle ID
+                Inspection Name
               </th>
               <th scope="col" className="px-6 py-3">
-                Vehicle Name
+                Date & Time
               </th>
               <th scope="col" className="px-6 py-3">
-                Date
+                Location
               </th>
               <th scope="col" className="px-6 py-3">
-                <span className="sr-only">Edit</span>
+                <span className="sr-only">Download</span>
               </th>
             </tr>
           </thead>
@@ -54,9 +98,9 @@ const Records = () => {
                 >
                   {record.id}
                 </th>
-                <td className="px-6 py-4">{record.vehicleId}</td>
-                <td className="px-6 py-4">{record.vehicleName}</td>
-                <td className="px-6 py-4">{record.date}</td>
+                <td className="px-6 py-4">{record.name}</td>
+                <td className="px-6 py-4">{record.time}</td>
+                <td className="px-6 py-4">{record.location}</td>
                 <td className="px-6 py-4 text-right">
                   <button
                     onClick={() => handleDownload(record)}

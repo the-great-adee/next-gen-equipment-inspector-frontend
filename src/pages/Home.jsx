@@ -8,9 +8,13 @@ const Home = () => {
         Login Here to view your Records
       </div>
       <div>
-        <Link to="/login" className="bg-black rounded-lg w-28 text-center px-6 pb-3 p-2 text-white">
+        <Link
+          to="/login"
+          className="bg-black rounded-lg w-28 text-center px-6 pb-3 p-2 text-white hover:bg-slate-200 hover:text-black transition-colors duration-300"
+        >
           Login
         </Link>
+
       </div>
     </div>
   );
