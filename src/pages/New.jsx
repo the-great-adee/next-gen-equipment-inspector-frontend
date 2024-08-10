@@ -1,16 +1,16 @@
-import useSpeechToText from "react-hook-speech-to-text";
-import { OutlinedButton2 } from "../components/Button";
-import { vehicleConfig, legalCommands } from "../utils/commandHandler";
-import ThreeDotLoader from "../components/threeDotLoader";
-import useTextToSpeech from "../hooks/useTextToSpeech";
-import { useForm } from "react-hook-form";
-import microphone from "../assets/microphone.png";
-import { useEffect, useState } from "react";
-import usePrintToPDF from "../hooks/usePrintToPdf";
-import "../hooks/printStyle.css";
+import useSpeechToText from "react-hook-speech-to-text"
+import { OutlinedButton2 } from "../components/Button"
+import { vehicleConfig, legalCommands } from "../utils/commandHandler"
+import ThreeDotLoader from "../components/threeDotLoader"
+import useTextToSpeech from "../hooks/useTextToSpeech"
+import { useForm } from "react-hook-form"
+import microphone from "../assets/microphone.png"
+import { useEffect, useState } from "react"
+import usePrintToPDF from "../hooks/usePrintToPdf"
+import "../hooks/printStyle.css"
 
 const New = () => {
-  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false)
   const {
     error,
     interimResult,
@@ -21,8 +21,8 @@ const New = () => {
   } = useSpeechToText({
     continuous: true,
     useLegacyResults: false,
-  });
-  const speak = useTextToSpeech();
+  })
+  const speak = useTextToSpeech()
 
   const {
     register,
@@ -30,12 +30,12 @@ const New = () => {
     reset,
     setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm()
 
   const onSubmit = (data) => {
-    console.log(data);
-    reset();
-  };
+    console.log(data)
+    reset()
+  }
 
   // Mapping of voice commands to form fields
   const commandMapping = {
@@ -53,6 +53,8 @@ const New = () => {
     "set inspection coords": "geoCoordinates",
     "set metre hours": "serviceMeterHours",
     "set metre duration": "serviceMeterHours",
+    "set meter hours": "serviceMeterHours",
+    "set meter duration": "serviceMeterHours",
     "set the duration": "serviceMeterHours",
     "set minute hours": "serviceMeterHours",
     "set Odometer reading": "serviceMeterHours",
@@ -66,31 +68,31 @@ const New = () => {
     "okay submit it": "submit",
     "ok it's done": "submit",
     "okay submit it": "submit",
-  };
+  }
   useEffect(() => {
     if (results.length > 0) {
       results.forEach((result) => {
         const commands = result.transcript
           .toLowerCase()
           .split(" ")
-          .filter((word) => word !== "");
+          .filter((word) => word !== "")
 
         // Extract command key and value
         if (commands.length > 1) {
-          const commandKey = commands.slice(0, 3).join(" "); // Extract the command
-          const value = commands.slice(3).join(" "); // Extract the value
-          console.log("Command key : ", commandKey);
-          console.log("Value : ", value);
+          const commandKey = commands.slice(0, 3).join(" ") // Extract the command
+          const value = commands.slice(3).join(" ") // Extract the value
+          console.log("Command key : ", commandKey)
+          console.log("Value : ", value)
 
           if (commandMapping[commandKey]) {
-            setValue(commandMapping[commandKey], value);
+            setValue(commandMapping[commandKey], value)
           }
         }
-      });
+      })
     }
-  }, [results, setValue]);
+  }, [results, setValue])
 
-  if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;
+  if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>
 
   return (
     <div className="min-h-96 grid grid-cols-2 gap-2 px-4 py-4">
@@ -107,25 +109,18 @@ const New = () => {
         <div className="flex justify-center flex-col rounded-lg items-center w-full py-3 pt-5 px-2">
           <div
             className="w-fit z-20 cursor-pointer hover:scale-[97%] active:scale-95 transition-all duration-300"
-            onClick={isRecording ? stopSpeechToText : startSpeechToText}
-          >
+            onClick={isRecording ? stopSpeechToText : startSpeechToText}>
             {isRecording ? (
-              <div className="relative flex items-center flex-col justify-center space-y-4">
+              <div className="relative flex items-center flex-col justify-center">
                 <div className="animate-pulse relative bg-red-100 w-48 aspect-square px-8 mx-auto rounded-full flex justify-center items-center my-auto">
-                  <img
-                    className="size-24 z-50 cursor-pointer"
-                    src={microphone}
-                  />
+                  <img className="size-24 z-50 cursor-pointer" src={microphone} />
                 </div>
                 <ThreeDotLoader />
               </div>
             ) : (
               <div className="relative flex items-center flex-col justify-center space-y-4">
                 <div className=" w-48 aspect-square px-8 mx-auto rounded-full flex justify-center items-center my-auto">
-                  <img
-                    className="size-24 z-50 cursor-pointer"
-                    src={microphone}
-                  />
+                  <img className="size-24 z-50 cursor-pointer" src={microphone} />
                 </div>
                 <div className="opacity-0">
                   <ThreeDotLoader />
@@ -137,20 +132,14 @@ const New = () => {
             <ul>
               {results.length > 0 &&
                 (() => {
-                  const lastResult = results[results.length - 1];
-                  const className = legalCommands.includes(
-                    lastResult.transcript.split(" ")[0]
-                  )
-                    ? "text-green-500"
-                    : "text-red-500";
+                  const lastResult = results[results.length - 1]
                   return (
                     <li
                       key={lastResult.timestamp}
-                      className={className + "font-bold text-xl"}
-                    >
+                      className={"font-semibold text-xl text-gray-500"}>
                       {lastResult.transcript}
                     </li>
-                  );
+                  )
                 })()}
               {interimResult && <li>{interimResult}</li>}
             </ul>
@@ -158,17 +147,17 @@ const New = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default New;
+export default New
 
 const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
-  const { sectionRef, printToPDF } = usePrintToPDF("FJ548");
+  const { sectionRef, printToPDF } = usePrintToPDF("FJ548")
 
   return (
-    <div className="w-full mx-auto p-4 bg-gray-100 shadow-md rounded-md">
-      <h2 className="text-2xl font-bold mb-4">Truck Inspection Form</h2>
+    <div className="w-full h-[80vh] p-4 bg-gray-100 shadow-md rounded-md overflow-scroll">
+      <h2 className="text-2xl font-bold mb-2">Truck Inspection Form</h2>
       <form ref={sectionRef} onSubmit={handleSubmit(onSubmit)}>
         {/* Truck Serial Number */}
         <div className="mb-4">
@@ -196,20 +185,6 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
           )}
         </div>
 
-        {/* Inspection ID */}
-        {/* <div className="mb-4">
-          <label className="block text-gray-700">Inspection ID</label>
-          <input
-            className="w-full p-2 border border-gray-300 rounded"
-            {...register("inspectionID", { required: true })}
-            type="number"
-            placeholder="Auto-incremented unique number"
-          />
-          {errors.inspectionID && (
-            <span className="text-red-500">This field is required</span>
-          )}
-        </div> */}
-
         {/* Inspector Name */}
         <div className="mb-4">
           <label className="block text-gray-700">Inspector Name</label>
@@ -222,33 +197,6 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
           )}
         </div>
 
-        {/* Inspection Employee ID */}
-        {/* <div className="mb-4">
-          <label className="block text-gray-700">Inspection Employee ID</label>
-          <input
-            className="w-full p-2 border border-gray-300 rounded"
-            {...register("inspectionEmployeeID", { required: true })}
-          />
-          {errors.inspectionEmployeeID && (
-            <span className="text-red-500">This field is required</span>
-          )}
-        </div> */}
-
-        {/* Date & Time of Inspection */}
-        {/* <div className="mb-4">
-          <label className="block text-gray-700">
-            Date & Time of Inspection
-          </label>
-          <input
-            className="w-full p-2 border border-gray-300 rounded"
-            {...register("inspectionDateTime", { required: true })}
-            type="datetime-local"
-          />
-          {errors.inspectionDateTime && (
-            <span className="text-red-500">This field is required</span>
-          )}
-        </div> */}
-
         {/* Location of Inspection */}
         <div className="mb-4">
           <label className="block text-gray-700">Location of Inspection</label>
@@ -260,18 +208,6 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
             <span className="text-red-500">This field is required</span>
           )}
         </div>
-
-        {/* Geo Coordinates of Inspection */}
-        {/* <div className="mb-4">
-          <label className="block text-gray-700">
-            Geo Coordinates of Inspection (optional)
-          </label>
-          <input
-            className="w-full p-2 border border-gray-300 rounded"
-            {...register("geoCoordinates")}
-            placeholder="Latitude, Longitude"
-          />
-        </div> */}
 
         {/* Service Meter Hours */}
         <div className="mb-4">
@@ -286,23 +222,9 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
           )}
         </div>
 
-        {/* Inspector Signature */}
-        {/* <div className="mb-4">
-          <label className="block text-gray-700">Inspector Signature</label>
-          <input
-            className="w-full p-2 border border-gray-300 rounded"
-            {...register("inspectorSignature", { required: true })}
-          />
-          {errors.inspectorSignature && (
-            <span className="text-red-500">This field is required</span>
-          )}
-        </div> */}
-
         {/* Customer Name / Company Name */}
         <div className="mb-4">
-          <label className="block text-gray-700">
-            Customer Name / Company Name
-          </label>
+          <label className="block text-gray-700">Customer Name / Company Name</label>
           <input
             className="w-full p-2 border border-gray-300 rounded"
             {...register("customerName", { required: true })}
@@ -326,10 +248,7 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
       </form>
 
       <div className="flex justify-around my-4">
-        <button
-          type="submit"
-          className="w-32 p-2 bg-blue-500 text-white rounded"
-        >
+        <button type="submit" className="w-32 p-2 bg-blue-500 text-white rounded">
           Submit
         </button>
 
@@ -338,5 +257,5 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
         </OutlinedButton2>
       </div>
     </div>
-  );
-};
+  )
+}
