@@ -31,43 +31,80 @@ const New = () => {
       </div>
 
       <div className="p-1">
-        <h1>{isRecording ? <ThreeDotLoader /> : <RedDot />}</h1>
+        {/* <h1>{isRecording ? <ThreeDotLoader /> : <RedDot />}</h1> */}
 
-        <ul>
-          {results.map((result) => {
-            // Example processing: splitting the transcript into words
-            const commands = result.transcript
-              .split(" ")
-              .filter((word) => word !== "");
-            console.log(commands);
-            const className = legalCommands.includes(commands[0])
-              ? "text-green-500"
-              : "text-red-500";
-
-            return (
-              <li key={result.timestamp} className={className}>
-                {result.transcript}
-              </li>
-            );
-          })}
-          {interimResult && <li>{interimResult}</li>}
-        </ul>
-        <div className="flex justify-center rounded-lg items-center w-full py-3 pt-5 px-2">
+        <div className="flex justify-center flex-col rounded-lg items-center w-full py-3 pt-5 px-2">
           <div
             className="w-fit z-20 cursor-pointer hover:scale-[97%] active:scale-95 transition-all duration-300"
             onClick={isRecording ? stopSpeechToText : startSpeechToText}
           >
             {isRecording ? (
-              "Stop"
-            ) : (
-              <div className="relative">
+              <div className="relative flex items-center flex-col justify-center space-y-4">
                 <img
                   className="size-32 left-1/2 transform -translate-x-1/2 top-1/2 z-10 -translate-y-1/2 absolute cursor-pointer"
                   src={microphone}
                 />
                 <div className="animate-pulse relative bg-red-100 w-48 aspect-square px-8 mx-auto rounded-full flex justify-center items-center  my-auto"></div>
+
+                <div className="text-4xl">
+                  <ThreeDotLoader />
+                </div>
+              </div>
+            ) : (
+              <div className="relative flex items-center flex-col justify-center space-y-4">
+                <img
+                  className="size-32 left-1/2 transform -translate-x-1/2 top-1/2 z-10 -translate-y-1/2 absolute cursor-pointer"
+                  src={microphone}
+                />
+                <div className="animate-pulse relative bg-red-100 w-48 aspect-square px-8 mx-auto rounded-full flex justify-center items-center  my-auto"></div>
+
+                <div className="text-4xl opacity-0">
+                  <ThreeDotLoader />
+                </div>
               </div>
             )}
+          </div>
+          <div>
+            <ul>
+              {results.length > 0 &&
+                // Get the most recent result
+                (() => {
+                  const lastResult = results[results.length - 1];
+                  const commands = lastResult.transcript
+                    .split(" ")
+                    .filter((word) => word !== "");
+                  const className = legalCommands.includes(commands[0])
+                    ? "text-green-500"
+                    : "text-red-500";
+
+                  return (
+                    <li key={lastResult.timestamp} className={className}>
+                      {lastResult.transcript}
+                    </li>
+                  );
+                })()}
+              {interimResult && <li>{interimResult}</li>}
+            </ul>
+
+            {/* <ul>
+              {results.map((result) => {
+                // Example processing: splitting the transcript into words
+                const commands = result.transcript
+                  .split(" ")
+                  .filter((word) => word !== "");
+                console.log(commands);
+                const className = legalCommands.includes(commands[0])
+                  ? "text-green-500"
+                  : "text-red-500";
+
+                return (
+                  <li key={result.timestamp} className={className}>
+                    {result.transcript}
+                  </li>
+                );
+              })}
+              {interimResult && <li>{interimResult}</li>}
+            </ul> */}
           </div>
         </div>
       </div>
