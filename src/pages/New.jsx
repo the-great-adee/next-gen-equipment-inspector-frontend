@@ -65,6 +65,7 @@ const New = () => {
     "ok submit it": "submit",
     "okay submit it": "submit",
     "ok it's done": "submit",
+    "okay it's done": "submit",
     "okay submit it": "submit",
   };
   useEffect(() => {
@@ -75,26 +76,44 @@ const New = () => {
           .split(" ")
           .filter((word) => word !== "");
 
-        // Extract command key and value
+        // Extract command key and value for other fields
         if (commands.length > 1) {
-          const commandKey = commands.slice(0, 3).join(" "); // Extract the command
-          const value = commands.slice(3).join(" "); // Extract the value
-          console.log("Command key : ", commandKey);
-          console.log("Value : ", value);
+          const commandKey = commands.slice(0, 3).join(" "); // Extract the command key (first 3 words)
+          const value = commands.slice(3).join(" "); // Extract the value (words after the 3rd word)
 
           if (commandMapping[commandKey]) {
-            setValue(commandMapping[commandKey], value);
+            const field = commandMapping[commandKey];
+            // Handle form submission
+            if (field.toLowerCase().includes("submit")) {
+              if (!hasSubmitted) {
+                console.log("Form is being submitted.");
+                handleSubmit(onSubmit)();
+                if (!error) {
+                  // Call the submit function
+                  setHasSubmitted(true); // Set the flag to true to prevent repeated submissions
+                }
+              }
+            } else {
+              setValue(field, value); // Set the value for the corresponding field
+            }
           }
         }
       });
     }
-  }, [results, setValue]);
+  }, [
+    results,
+    setValue,
+    handleSubmit,
+    onSubmit,
+    hasSubmitted,
+    stopSpeechToText,
+  ]);
 
   if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;
 
   return (
-    <div className="min-h-96 grid grid-cols-2 gap-2 px-4 py-4">
-      <div className="p-1 overflow-y-scroll overflow-hidden max-h-full">
+    <div className="min-h-96 h-full overflow-hidden flex gap-2 px-4 py-4">
+      <div className="p-1 max-h-full">
         <InspectionForm
           register={register}
           handleSubmit={handleSubmit}
@@ -167,7 +186,7 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
   const { sectionRef, printToPDF } = usePrintToPDF("FJ548");
 
   return (
-    <div className="w-full mx-auto p-4 bg-gray-100 shadow-md rounded-md">
+    <div className="max-h-full overflow-hidden overflow-y-scroll w-full mx-auto p-4 bg-gray-100 shadow-md rounded-md">
       <h2 className="text-2xl font-bold mb-4">Truck Inspection Form</h2>
       <form ref={sectionRef} onSubmit={handleSubmit(onSubmit)}>
         {/* Truck Serial Number */}
@@ -323,20 +342,19 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
             <span className="text-red-500">This field is required</span>
           )}
         </div>
+        <div className="flex justify-around my-4">
+          <button
+            type="submit"
+            className="w-32 p-2 bg-blue-500 text-white rounded"
+          >
+            Submit
+          </button>
+
+          <OutlinedButton2 className="w-32" clickHandler={printToPDF}>
+            Print
+          </OutlinedButton2>
+        </div>
       </form>
-
-      <div className="flex justify-around my-4">
-        <button
-          type="submit"
-          className="w-32 p-2 bg-blue-500 text-white rounded"
-        >
-          Submit
-        </button>
-
-        <OutlinedButton2 className="w-32" clickHandler={printToPDF}>
-          Print
-        </OutlinedButton2>
-      </div>
     </div>
   );
 };
