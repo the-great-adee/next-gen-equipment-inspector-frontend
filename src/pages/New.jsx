@@ -5,7 +5,7 @@ import ThreeDotLoader from "../components/threeDotLoader";
 import useTextToSpeech from "../hooks/useTextToSpeech";
 import { useForm } from "react-hook-form";
 import microphone from "../assets/microphone.png";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import usePrintToPDF from "../hooks/usePrintToPdf";
 import "../hooks/printStyle.css";
 
