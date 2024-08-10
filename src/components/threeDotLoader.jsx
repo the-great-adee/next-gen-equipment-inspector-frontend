@@ -4,11 +4,12 @@ const ThreeDotLoader = () => {
     width: "max-content",
     alignItems: "center",
     justifyContent: "center",
+    padding: "4rem 0 2rem 0",
   }
 
   const dotStyle = {
-    width: "8px",
-    height: "8px",
+    width: "1.5rem",
+    height: "1.5rem",
     margin: "0 4px",
     backgroundColor: "#333",
     borderRadius: "50%",
@@ -35,19 +36,3 @@ const ThreeDotLoader = () => {
 }
 
 export default ThreeDotLoader
-
-export function RedDot() {
-  const redDotStyle = {
-    width: "1rem",
-    height: "1rem",
-    padding: "0.5rem",
-    backgroundColor: "red",
-    borderRadius: "50%",
-    display: "inline-block",
-    textAlign: "center",
-    fontSize: "0.8rem",
-    color: "transparent",
-  }
-
-  return <span style={redDotStyle}>.</span>
-}

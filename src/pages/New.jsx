@@ -296,14 +296,14 @@
 //   );
 // };
 
-import useSpeechToText from "react-hook-speech-to-text";
-import { OutlinedButton } from "../components/Button";
-import { vehicleConfig, legalCommands } from "../utils/commandHandler";
-import ThreeDotLoader, { RedDot } from "../components/threeDotLoader";
-import useTextToSpeech from "../hooks/useTextToSpeech";
-import { useForm } from "react-hook-form";
-import microphone from "../assets/microphone.png";
-import { useEffect } from "react";
+import useSpeechToText from "react-hook-speech-to-text"
+import { OutlinedButton } from "../components/Button"
+import { vehicleConfig, legalCommands } from "../utils/commandHandler"
+import ThreeDotLoader from "../components/threeDotLoader"
+import useTextToSpeech from "../hooks/useTextToSpeech"
+import { useForm } from "react-hook-form"
+import microphone from "../assets/microphone.png"
+import { useEffect } from "react"
 
 const New = () => {
   const {
@@ -325,12 +325,12 @@ const New = () => {
     reset,
     setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm()
 
   const onSubmit = (data) => {
-    console.log(data);
-    reset();
-  };
+    console.log(data)
+    reset()
+  }
 
   // Mapping of voice commands to form fields
   const commandMapping = {
@@ -352,7 +352,7 @@ const New = () => {
     "set company name": "customerName",
     "set customer name": "customerName",
     "set customer id": "catCustomerID",
-  };
+  }
 
   useEffect(() => {
     if (results.length > 0) {
@@ -360,24 +360,24 @@ const New = () => {
         const commands = result.transcript
           .toLowerCase()
           .split(" ")
-          .filter((word) => word !== "");
+          .filter((word) => word !== "")
 
         // Handle the command and fill the form
         if (commands.length > 1) {
-          const commandKey = commands.slice(0, 3).join(" "); // Extract the command
-          const value = commands.slice(3).join(" "); // Extract the value
-          console.log("Command key : ", commandKey);
-          console.log("Value : ", value);
+          const commandKey = commands.slice(0, 3).join(" ") // Extract the command
+          const value = commands.slice(3).join(" ") // Extract the value
+          console.log("Command key : ", commandKey)
+          console.log("Value : ", value)
 
           if (commandMapping[commandKey]) {
-            setValue(commandMapping[commandKey], value);
+            setValue(commandMapping[commandKey], value)
           }
         }
-      });
+      })
     }
-  }, [results, setValue]);
+  }, [results, setValue])
 
-  if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;
+  if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>
 
   return (
     <div className="min-h-96 grid grid-cols-2 gap-2 px-4 py-4">
@@ -402,9 +402,7 @@ const New = () => {
                   src={microphone}
                 />
                 <div className="animate-pulse relative bg-red-100 w-48 aspect-square px-8 mx-auto rounded-full flex justify-center items-center my-auto"></div>
-                <div className="text-4xl">
-                  <ThreeDotLoader />
-                </div>
+                <ThreeDotLoader />
               </div>
             ) : (
               <div className="relative flex items-center flex-col justify-center space-y-4">
@@ -423,17 +421,16 @@ const New = () => {
             <ul>
               {results.length > 0 &&
                 (() => {
-                  const lastResult = results[results.length - 1];
+                  const lastResult = results[results.length - 1]
                   const className = legalCommands.includes(
                     lastResult.transcript.split(" ")[0]
                   )
                     ? "text-green-500"
-                    : "text-red-500";
+                    : "text-red-500"
                   return (
                     <li
                       key={lastResult.timestamp}
-                      className={className + "font-bold text-xl text-gray-300"}
-                    >
+                      className={className + "font-bold text-xl"}>
                       {lastResult.transcript}
                     </li>
                   )
@@ -584,9 +581,7 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
 
         {/* Customer Name / Company Name */}
         <div className="mb-4">
-          <label className="block text-gray-700">
-            Customer Name / Company Name
-          </label>
+          <label className="block text-gray-700">Customer Name / Company Name</label>
           <input
             className="w-full p-2 border border-gray-300 rounded"
             {...register("customerName", { required: true })}
