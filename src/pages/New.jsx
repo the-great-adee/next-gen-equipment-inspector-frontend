@@ -334,31 +334,37 @@ const New = () => {
 
   // Mapping of voice commands to form fields
   const commandMapping = {
-    "truck serial number": "truckSerialNumber",
-    "truck model": "truckModel",
-    "inspection id": "inspectionID",
-    "inspector name": "inspectorName",
+    "set truck number": "truckSerialNumber",
+    "set track number": "truckSerialNumber",
+    "set truck model": "truckModel",
+    "set inspection id": "inspectionID",
+    "set infection id": "inspectionID",
+    "set inspector name": "inspectorName",
+    "set infection name": "inspectorName",
+    "set inspection name": "inspectorName",
     // Add other mappings as needed
   };
 
   useEffect(() => {
     if (results.length > 0) {
-      const lastResult = results[results.length - 1];
-      const transcript = lastResult.transcript.toLowerCase();
-      const commands = transcript.split(" ");
+      results.forEach((result) => {
+        const commands = result.transcript
+          .toLowerCase()
+          .split(" ")
+          .filter((word) => word !== "");
 
-      // Iterate over the commandMapping to find a matching command
-      for (const [command, fieldName] of Object.entries(commandMapping)) {
-        if (transcript.startsWith(command)) {
-          // Extract the value after the command
-          const fieldValue = transcript.replace(command, "").trim();
-          if (fieldValue) {
-            // Set the value in the form
-            setValue(fieldName, fieldValue);
+        // Handle the command and fill the form
+        if (commands.length > 1) {
+          const commandKey = commands.slice(0, 3).join(" "); // Extract the command
+          const value = commands.slice(3).join(" "); // Extract the value
+          console.log("Command key : ", commandKey);
+          console.log("Value : ", value);
+
+          if (commandMapping[commandKey]) {
+            setValue(commandMapping[commandKey], value);
           }
-          break;
         }
-      }
+      });
     }
   }, [results, setValue]);
 
@@ -367,7 +373,6 @@ const New = () => {
   return (
     <div className="min-h-96 grid grid-cols-2 gap-2 px-4 py-4">
       <div className="p-1 overflow-y-scroll overflow-hidden max-h-full">
-        {" "}
         <InspectionForm
           register={register}
           handleSubmit={handleSubmit}
@@ -465,7 +470,7 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
         </div>
 
         {/* Inspection ID */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="block text-gray-700">Inspection ID</label>
           <input
             className="w-full p-2 border border-gray-300 rounded"
@@ -476,7 +481,7 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
           {errors.inspectionID && (
             <span className="text-red-500">This field is required</span>
           )}
-        </div>
+        </div> */}
 
         {/* Inspector Name */}
         <div className="mb-4">
