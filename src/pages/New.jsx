@@ -303,9 +303,10 @@ import ThreeDotLoader from "../components/threeDotLoader";
 import useTextToSpeech from "../hooks/useTextToSpeech";
 import { useForm } from "react-hook-form";
 import microphone from "../assets/microphone.png";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const New = () => {
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const {
     error,
     interimResult,
@@ -335,6 +336,7 @@ const New = () => {
   // Mapping of voice commands to form fields
   const commandMapping = {
     "set truck number": "truckSerialNumber",
+    "set serial number": "truckSerialNumber",
     "set track number": "truckSerialNumber",
     "set truck model": "truckModel",
     "set track model": "truckModel",
@@ -345,15 +347,22 @@ const New = () => {
     "set inspection name": "inspectorName",
     "set inspection location": "locationOfInspection",
     "set inspection coords": "geoCoordinates",
-    "set meter hours": "serviceMeterHours",
+    "set metre hours": "serviceMeterHours",
+    "set metre duration": "serviceMeterHours",
+    "set the duration": "serviceMeterHours",
     "set minute hours": "serviceMeterHours",
     "set Odometer reading": "serviceMeterHours",
     "set customer signature": "inspectorSignature",
     "set company name": "customerName",
     "set customer name": "customerName",
     "set customer id": "catCustomerID",
+    "Form is done": "submit",
+    "submit the form": "submit",
+    "ok submit it": "submit",
+    "okay submit it": "submit",
+    "ok it's done": "submit",
+    "okay submit it": "submit",
   };
-
   useEffect(() => {
     if (results.length > 0) {
       results.forEach((result) => {
@@ -362,20 +371,36 @@ const New = () => {
           .split(" ")
           .filter((word) => word !== "");
 
-        // Handle the command and fill the form
+        // Extract command key and value
         if (commands.length > 1) {
-          const commandKey = commands.slice(0, 3).join(" "); // Extract the command
-          const value = commands.slice(3).join(" "); // Extract the value
-          console.log("Command key : ", commandKey);
-          console.log("Value : ", value);
+          const commandKey = commands.slice(0, 3).join(" "); // Extract the command key (first 3 words)
+          const value = commands.slice(3).join(" "); // Extract the value (words after the 3rd word)
 
+          // Check if the command key matches a field or submission command
           if (commandMapping[commandKey]) {
-            setValue(commandMapping[commandKey], value);
+            const field = commandMapping[commandKey];
+            if (
+              field.toLowerCase().includes("stop") ||
+              field.toLowerCase().includes("done") ||
+              field.toLowerCase().includes("ok") ||
+              field.toLowerCase().includes("okay")
+            ) {
+              console.log("Trying to stop;");
+              stopSpeechToText();
+            }
+            if (field === "submit") {
+              if (!hasSubmitted) {
+                handleSubmit(onSubmit)();
+                setHasSubmitted(true); // Set the flag to true to prevent repeated submissions
+              }
+            } else {
+              setValue(field, value);
+            }
           }
         }
       });
     }
-  }, [results, setValue]);
+  }, [results, setValue, handleSubmit, onSubmit]);
 
   if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;
 
@@ -482,7 +507,7 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
         </div>
 
         {/* Inspection ID */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="block text-gray-700">Inspection ID</label>
           <input
             className="w-full p-2 border border-gray-300 rounded"
@@ -493,7 +518,7 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
           {errors.inspectionID && (
             <span className="text-red-500">This field is required</span>
           )}
-        </div>
+        </div> */}
 
         {/* Inspector Name */}
         <div className="mb-4">
