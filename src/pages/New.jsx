@@ -25,7 +25,7 @@ const New = () => {
 
   return (
     <div className="min-h-96 grid grid-cols-2 gap-2 px-4 py-4">
-      <div className="p-1">
+      <div className="p-1 overflow-y-scroll overflow-hidden max-h-full">
         {" "}
         <InspectionForm />
       </div>
@@ -52,9 +52,9 @@ const New = () => {
           })}
           {interimResult && <li>{interimResult}</li>}
         </ul>
-        <div className="flex justify-between rounded-lg items-center py-3 pt-5 px-2">
+        <div className="flex justify-center rounded-lg items-center w-full py-3 pt-5 px-2">
           <div
-            className="w-full z-20"
+            className="w-fit z-20 cursor-pointer hover:scale-[97%] active:scale-95 transition-all duration-300"
             onClick={isRecording ? stopSpeechToText : startSpeechToText}
           >
             {isRecording ? (
