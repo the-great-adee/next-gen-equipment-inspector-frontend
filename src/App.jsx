@@ -9,6 +9,7 @@ import Login from "./pages/Login"
 import Registration from "./pages/Registration"
 import SplashScreen from "./pages/SplashScreen"
 import { useState, useEffect } from "react"
+import "./hooks/printStyle.css"
 
 const DisplayLoadingDuration = 3000
 
