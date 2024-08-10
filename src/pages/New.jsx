@@ -297,13 +297,15 @@
 // };
 
 import useSpeechToText from "react-hook-speech-to-text"
-import { OutlinedButton } from "../components/Button"
+import { OutlinedButton2 } from "../components/Button"
 import { vehicleConfig, legalCommands } from "../utils/commandHandler"
 import ThreeDotLoader from "../components/threeDotLoader"
 import useTextToSpeech from "../hooks/useTextToSpeech"
 import { useForm } from "react-hook-form"
 import microphone from "../assets/microphone.png"
 import { useEffect } from "react"
+import usePrintToPDF from "../hooks/usePrintToPdf"
+import "../hooks/printStyle.css"
 
 const New = () => {
   const {
@@ -447,10 +449,12 @@ const New = () => {
 export default New
 
 const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
+  const { sectionRef, printToPDF } = usePrintToPDF("FJ548")
+
   return (
     <div className="w-full mx-auto p-4 bg-gray-100 shadow-md rounded-md">
       <h2 className="text-2xl font-bold mb-4">Truck Inspection Form</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form ref={sectionRef} onSubmit={handleSubmit(onSubmit)}>
         {/* Truck Serial Number */}
         <div className="mb-4">
           <label className="block text-gray-700">Truck Serial Number</label>
@@ -602,11 +606,17 @@ const InspectionForm = ({ register, handleSubmit, onSubmit, errors }) => {
             <span className="text-red-500">This field is required</span>
           )}
         </div>
+      </form>
 
-        <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">
+      <div className="flex justify-around my-4">
+        <button type="submit" className="w-32 p-2 bg-blue-500 text-white rounded">
           Submit
         </button>
-      </form>
+
+        <OutlinedButton2 className="w-32" clickHandler={printToPDF}>
+          Print
+        </OutlinedButton2>
+      </div>
     </div>
   )
 }

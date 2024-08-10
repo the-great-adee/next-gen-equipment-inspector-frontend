@@ -1,0 +1,47 @@
+@media print {
+  /* Adjust input boxes */
+  input,
+  textarea,
+  select {
+    box-sizing: border-box;
+    padding: 0.5rem;
+    margin-bottom: 1rem; /* Add margin below input boxes */
+    height: auto; /* Ensure inputs expand to fit content */
+  }
+
+  /* Increase spacing below labels */
+  label {
+    display: block;
+    margin-bottom: 0.5rem; /* Adjust as necessary */
+    font-weight: bold;
+  }
+
+  /* Ensure text is fully visible */
+  .print-section {
+    padding: 20px;
+    background-color: white;
+    font-size: 14px;
+    line-height: 1.5;
+    color: black;
+  }
+
+  /* Prevent cutting off of content */
+  input,
+  textarea {
+    overflow: visible;
+    height: auto; /* Auto height for proper content rendering */
+  }
+
+  /* Ensure no elements are cut off */
+  .print-section,
+  input,
+  textarea,
+  label {
+    page-break-inside: avoid;
+  }
+
+  /* Add extra space below elements */
+  .print-section > * {
+    margin-bottom: 1rem; /* Adjust as necessary */
+  }
+}
